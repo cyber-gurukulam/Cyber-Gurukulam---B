@@ -11,13 +11,11 @@ const mongoose = require('mongoose');
 
 // const port = process.env.PORT || 8100;
 const port = process.env.port || 8080;
-const URI  = "mongodb://localhost:27017/cyberGurukulam";
+const URI  = process.env.URI;
 // MiddleWares
 app.use(express.json())
 app.use(cors());
 app.use(baseRouter)
-
-app.use(express.static('build'))
 
 mongoose.connect(URI)
   .then(() => {
