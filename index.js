@@ -1,27 +1,35 @@
 const express = require('express')
 const cors = require('cors')
-const fs = require('fs')
 const app = express()
+const baseRouter = require('./routers/baseRouter')
+// const path = require('path')
 
-const PORT = 8080;
+// require('dotenv').config({ path: path.resolve(__dirname, 'env') })
+require('dotenv').config()
+  
+const mongoose = require('mongoose');
 
+// const port = process.env.PORT || 8100;
+const port = process.env.port || 8080;
+const URI  = "mongodb://localhost:27017/cyberGurukulam";
+// MiddleWares
 app.use(express.json())
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors());
+app.use(baseRouter)
 
-app.listen(PORT, ()=>{
-    console.log(`Server is Listening on Port : ${PORT}`);
-})
+app.use(express.static('build'))
 
-app.post('/api/contact', (req, res) => {
-    data = req.body
-    console.log(req.body)
-    fs.writeFile('./response.json', JSON.stringify(data), 'utf-8', (err) => {
-        if (err) {
-            console.log(err);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
-        }
-    console.log("Data has been written")
-    res.status(200).json({message:"Recieved"})
-    })
-})
+mongoose.connect(URI)
+  .then(() => {
+    console.log("Connected to the database successfully ...");
+    app.listen(port, (err) => {
+      if (err) {
+        console.log("Something went wrong: ", err);
+      }
+      console.log(`Server is running on Port: ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.log("Can not connect to the Database ...", error);
+  });
+
