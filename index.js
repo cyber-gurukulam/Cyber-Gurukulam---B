@@ -10,7 +10,7 @@ require('dotenv').config()
 const mongoose = require('mongoose');
 
 // const port = process.env.PORT || 8100;
-const port = process.env.port || 8080;
+const port = process.env.PORT || 8080;
 const URI  = process.env.URI;
 // MiddleWares
 app.use(express.json())
