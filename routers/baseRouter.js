@@ -8,9 +8,9 @@ const limiter = rateLimit({
     message: "Please Try again later"
 });
 
-// router.get('/', (req, res) => {
-//     res.send("Hello");
-// });
+router.get('/live', (req, res) => {
+    res.send("Hello");
+});
 
 router.post('/api/contact', limiter, async (req, res) => {
     try {
